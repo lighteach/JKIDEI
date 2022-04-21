@@ -86,5 +86,11 @@
   <ItemGroup>
     <None Include="Resources\exit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JKIDEI.Service\JKIDEI.Service.csproj">
+      <Project>{95aae96d-4045-4375-b520-9ec8b1a10c88}</Project>
+      <Name>JKIDEI.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

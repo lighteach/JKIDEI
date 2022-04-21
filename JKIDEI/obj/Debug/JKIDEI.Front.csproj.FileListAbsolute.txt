@@ -1,0 +1,14 @@
+C:\DevArea\JKIDEI\JKIDEI\bin\Debug\JKIDEI.exe.config
+C:\DevArea\JKIDEI\JKIDEI\bin\Debug\JKIDEI.exe
+C:\DevArea\JKIDEI\JKIDEI\bin\Debug\JKIDEI.pdb
+C:\DevArea\JKIDEI\JKIDEI\bin\Debug\JKIDEI.Service.dll
+C:\DevArea\JKIDEI\JKIDEI\bin\Debug\JKIDEI.Service.pdb
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Front.csproj.AssemblyReference.cache
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Front.csproj.SuggestedBindingRedirects.cache
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.frmMain.resources
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Properties.Resources.resources
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Front.csproj.GenerateResource.cache
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Front.csproj.CoreCompileInputs.cache
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.Front.csproj.CopyComplete
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.exe
+C:\DevArea\JKIDEI\JKIDEI\obj\Debug\JKIDEI.pdb
