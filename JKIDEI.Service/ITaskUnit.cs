@@ -10,7 +10,7 @@ namespace JKIDEI.Service
     public interface ITaskUnit
     {
         bool Verify();
-        string TaskDescription { get; }
+        string TaskDescription { get; set; }
         ErrorInfo Execute();
     }
 }

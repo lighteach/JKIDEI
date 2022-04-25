@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblPrgRatio = new System.Windows.Forms.Label();
+            this.progBar = new System.Windows.Forms.ProgressBar();
             this.pnlReport = new System.Windows.Forms.Panel();
             this.lblDeveloped = new System.Windows.Forms.Label();
             this.lblSubTitle = new System.Windows.Forms.Label();
@@ -41,6 +44,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(161)))), ((int)(((byte)(255)))));
+            this.panel1.Controls.Add(this.lblPrgRatio);
+            this.panel1.Controls.Add(this.progBar);
             this.panel1.Controls.Add(this.pnlReport);
             this.panel1.Controls.Add(this.lblDeveloped);
             this.panel1.Controls.Add(this.lblSubTitle);
@@ -56,11 +61,29 @@
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
+            // lblPrgRatio
+            // 
+            this.lblPrgRatio.AutoSize = true;
+            this.lblPrgRatio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrgRatio.ForeColor = System.Drawing.Color.White;
+            this.lblPrgRatio.Location = new System.Drawing.Point(9, 597);
+            this.lblPrgRatio.Name = "lblPrgRatio";
+            this.lblPrgRatio.Size = new System.Drawing.Size(39, 15);
+            this.lblPrgRatio.TabIndex = 5;
+            this.lblPrgRatio.Text = "Ready";
+            // 
+            // progBar
+            // 
+            this.progBar.Location = new System.Drawing.Point(12, 612);
+            this.progBar.Name = "progBar";
+            this.progBar.Size = new System.Drawing.Size(1082, 23);
+            this.progBar.TabIndex = 0;
+            // 
             // pnlReport
             // 
             this.pnlReport.Location = new System.Drawing.Point(12, 163);
             this.pnlReport.Name = "pnlReport";
-            this.pnlReport.Size = new System.Drawing.Size(1082, 488);
+            this.pnlReport.Size = new System.Drawing.Size(1082, 418);
             this.pnlReport.TabIndex = 4;
             // 
             // lblDeveloped
@@ -132,6 +155,7 @@
             this.ClientSize = new System.Drawing.Size(1106, 684);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.Text = "JKIDEI";
@@ -150,6 +174,8 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Panel pnlReport;
         private System.Windows.Forms.Label lblDeveloped;
+        private System.Windows.Forms.Label lblPrgRatio;
+        private System.Windows.Forms.ProgressBar progBar;
     }
 }
 

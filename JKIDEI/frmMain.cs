@@ -97,20 +97,7 @@ namespace JKIDEI
             pnlReport.Controls.Add(topSubject);
 
             // 프로그레스바 관련 셋팅
-            Label lblPrgRatio = new Label();
-            lblPrgRatio.Text = "%";
-            lblPrgRatio.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            lblPrgRatio.Location = new Point(10, 460);
-            lblPrgRatio.Width = 220;
-            lblPrgRatio.Height = 20;
             lblPrgRatio.Text = "진행중...";
-            pnlReport.Controls.Add(lblPrgRatio);
-
-            ProgressBar progBar = new ProgressBar();
-            progBar.Location = new Point(10, 480);
-            progBar.Width = 400;
-            progBar.Height = 30;
-            pnlReport.Controls.Add(progBar);
 
             Progress<ProgressReport> prog = new Progress<ProgressReport>();
             prog.ProgressChanged += (o, report) =>
@@ -142,15 +129,34 @@ namespace JKIDEI
                 {
                     foreach (ITaskUnit tu in taskUnits)
                     {
+                        this.Invoke(new Action(delegate ()
+                        {
+                            pnlReport.Controls.Add(GetNoticeLabel(tu.TaskDescription, false, 360));
+                        }));
                         report.PercentComplete = index++ * 100 / totalProcess;
                         prog.Report(report);
-                        ErrorInfo error = tu.Execute();
-                        if (!error.IsNormal)
+                        if (tu.Verify())    // 현재 작업을 검증한다.
                         {
-                            MessageBox.Show(error.Description, error.Title);
-                            this.Invoke(new Action(delegate()
+                            ErrorInfo error = tu.Execute();
+                            if (!error.IsNormal)
+                            {
+                                MessageBox.Show(error.Description, error.Title);
+                                this.Invoke(new Action(delegate ()
+                                {
+                                    SetMainNotice();
+                                }));
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(tu.TaskDescription, "작업 검증이 실패하였습니다.");
+                            this.Invoke(new Action(delegate ()
                             {
                                 SetMainNotice();
+                                progBar.Value = 0;
+                                progBar.Update();
+                                lblPrgRatio.Text = $"Ready";
                             }));
                             break;
                         }
