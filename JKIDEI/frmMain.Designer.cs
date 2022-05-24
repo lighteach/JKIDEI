@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.lblPrgRatio = new System.Windows.Forms.Label();
             this.progBar = new System.Windows.Forms.ProgressBar();
             this.pnlReport = new System.Windows.Forms.Panel();
@@ -44,6 +46,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(161)))), ((int)(((byte)(255)))));
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.lblVersion);
             this.panel1.Controls.Add(this.lblPrgRatio);
             this.panel1.Controls.Add(this.progBar);
             this.panel1.Controls.Add(this.pnlReport);
@@ -60,6 +64,26 @@
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(75)))), ((int)(((byte)(101)))));
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1106, 12);
+            this.panel2.TabIndex = 7;
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersion.ForeColor = System.Drawing.Color.White;
+            this.lblVersion.Location = new System.Drawing.Point(9, 660);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(28, 15);
+            this.lblVersion.TabIndex = 6;
+            this.lblVersion.Text = "v0.0";
             // 
             // lblPrgRatio
             // 
@@ -81,9 +105,10 @@
             // 
             // pnlReport
             // 
-            this.pnlReport.Location = new System.Drawing.Point(12, 163);
+            this.pnlReport.AutoScroll = true;
+            this.pnlReport.Location = new System.Drawing.Point(12, 128);
             this.pnlReport.Name = "pnlReport";
-            this.pnlReport.Size = new System.Drawing.Size(1082, 418);
+            this.pnlReport.Size = new System.Drawing.Size(1082, 453);
             this.pnlReport.TabIndex = 4;
             // 
             // lblDeveloped
@@ -125,6 +150,7 @@
             this.btnExit.BackgroundImage = global::JKIDEI.Properties.Resources.icon_exit;
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(223)))), ((int)(((byte)(241)))));
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Location = new System.Drawing.Point(1048, 12);
             this.btnExit.Name = "btnExit";
@@ -139,6 +165,7 @@
             this.btnMinimize.BackgroundImage = global::JKIDEI.Properties.Resources.icon_minimize;
             this.btnMinimize.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnMinimize.FlatAppearance.BorderSize = 0;
+            this.btnMinimize.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(223)))), ((int)(((byte)(241)))));
             this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMinimize.Location = new System.Drawing.Point(998, 20);
             this.btnMinimize.Name = "btnMinimize";
@@ -176,6 +203,8 @@
         private System.Windows.Forms.Label lblDeveloped;
         private System.Windows.Forms.Label lblPrgRatio;
         private System.Windows.Forms.ProgressBar progBar;
+        private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

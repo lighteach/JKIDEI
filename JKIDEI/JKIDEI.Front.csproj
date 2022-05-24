@@ -70,6 +70,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -90,6 +91,10 @@
     <None Include="Resources\exit.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JKIDEI.Common\JKIDEI.Common.csproj">
+      <Project>{b74510b2-a7a1-4314-ab9a-93d9f3cab6be}</Project>
+      <Name>JKIDEI.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JKIDEI.Service\JKIDEI.Service.csproj">
       <Project>{95aae96d-4045-4375-b520-9ec8b1a10c88}</Project>
       <Name>JKIDEI.Service</Name>
@@ -101,6 +106,8 @@
   <ItemGroup>
     <Content Include="JKIDEI_Icon.ico" />
     <Content Include="JKIDEI_Icon.png" />
+    <Content Include="PublicAPI.Shipped.txt" />
+    <Content Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

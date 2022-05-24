@@ -47,6 +47,9 @@
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Dism, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5bba90053b345501, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Dism.2.4.0\lib\net40\Microsoft.Dism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -65,8 +68,10 @@
     <Compile Include="Models\ProgressReport.cs" />
     <Compile Include="TaskUnitService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskUnits\DbConnCopyTaskUnit.cs" />
     <Compile Include="TaskUnits\ComPlusInstallationTaskUnit.cs" />
     <Compile Include="TaskUnits\GitRepositoryCloneTaskUnit.cs" />
+    <Compile Include="TaskUnits\ExeInstallTaskUnit.cs" />
     <Compile Include="TaskUnits\IISWebSiteSetTaskUnit.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +86,28 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\applicationHost.config" />
+    <None Include="Assets\dbconn.zip" />
     <None Include="Assets\DLL.zip" />
+    <None Include="Assets\rewrite_amd64_ko-KR.msi" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Git-2.30.0-64-bit.exe" />
+    <Content Include="Assets\hosts.txt" />
+    <Content Include="PublicAPI.Shipped.txt" />
+    <Content Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JKIDEI.Common\JKIDEI.Common.csproj">
+      <Project>{b74510b2-a7a1-4314-ab9a-93d9f3cab6be}</Project>
+      <Name>JKIDEI.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy  $(ProjectDir)Assets\DLL.zip $(SolutionDir)JKIDEI\$(OutDir)DLL.zip</PreBuildEvent>
+    <PreBuildEvent>rd /s $(SolutionDir)JKIDEI\$(OutDir)Assets
+md $(SolutionDir)JKIDEI\$(OutDir)Assets
+copy  $(ProjectDir)Assets\*.* $(SolutionDir)JKIDEI\$(OutDir)Assets\</PreBuildEvent>
   </PropertyGroup>
 </Project>

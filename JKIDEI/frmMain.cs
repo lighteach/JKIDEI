@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using JKIDEI.Common;
 using JKIDEI.Service;
 using JKIDEI.Service.Models;
 
@@ -23,10 +22,31 @@ namespace JKIDEI
             InitControls();
         }
 
+        #region InitControls
         private void InitControls()
         {
             SetMainNotice();
+            lblVersion.Text = $"v {Application.ProductVersion}";
+
+            panel1.Paint += (sender, e) =>
+            {
+                Panel panel = (Panel)sender;
+                Color[] shadow = { Color.FromArgb(181, 181, 181), Color.FromArgb(195, 195, 195), Color.FromArgb(211, 211, 211) };
+                using (Pen pen = new Pen(shadow[0]))
+                {
+                    Point pt = this.Location;
+                    pt.Y += this.Height;
+                    foreach(int sp in Enumerable.Range(0, 3))
+                    {
+                        pen.Color = shadow[sp];
+                        e.Graphics.DrawLine(pen, pt.X, pt.Y, pt.X + this.Width - 1, pt.Y);
+                        pt.Y++;
+                    }
+                }
+
+            };
         }
+        #endregion
 
         #region SetMainNotice : 첫 화면 안내 메시지 셋팅
         public void SetMainNotice()
@@ -43,29 +63,37 @@ namespace JKIDEI
 
             Button btnStart = new Button();
             btnStart.Text = "시작하기";
-            btnStart.BackColor = System.Drawing.Color.Transparent;
+            btnStart.BackColor = Color.Transparent;
             btnStart.FlatAppearance.BorderSize = 0;
-            btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnStart.FlatStyle = FlatStyle.Flat;
             btnStart.FlatAppearance.BorderSize = 2;
             btnStart.FlatAppearance.BorderColor = Color.Gray;
-            btnStart.Location = new System.Drawing.Point(200, 300);
+            btnStart.FlatAppearance.MouseOverBackColor = Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(180)))), ((int)(((byte)(237)))));
+            btnStart.Location = new Point(620, 300);
             btnStart.Name = "btnStart";
             btnStart.Size = new System.Drawing.Size(320, 50);
             btnStart.TabIndex = 1;
             btnStart.UseVisualStyleBackColor = false;
             btnStart.Click += btnStart_Click;
             pnlReport.Controls.Add(btnStart);
-        } 
+
+            lblPrgRatio.Text = "Ready";
+            lblPrgRatio.Update();
+        }
         #endregion
 
         #region GetNoticeLabel : 메인 안내 문구 용 Label 생성
-        private Label GetNoticeLabel(string text, bool IsTitle, int width)
+        private Label GetNoticeLabel(string text, bool IsTitle, int width, bool smaller = false)
         {
             float fontSize = IsTitle ? 16F : 12F;
+            if (smaller) fontSize = 9F;
+
             FontStyle fontStyle = IsTitle ? FontStyle.Bold : FontStyle.Regular;
             Color foreColor = IsTitle ? Color.FromArgb(55, 60, 66) : Color.White;
             int labelHeight = IsTitle ? 36 : 24;
             int labelLeft = IsTitle ? 20 : 60;
+            if (smaller) labelLeft = 80;
+
             int labelTop = 10;
             if (pnlReport.Controls.Count > 0)
             {
@@ -73,6 +101,8 @@ namespace JKIDEI
                 int locY = lastCtrl.Location.Y;
                 int ctrlHeight = lastCtrl.Height;
                 int totLocY = (ctrlHeight + locY) + (IsTitle ? 5 : 3);  // 이전 컨트롤의 위치와 높이를 더해 하단 위치 값을 구하고 5(타이틀이 아닌 경우 3)픽셀의 간격을 설정
+                if (smaller) totLocY = (ctrlHeight + locY);
+
                 labelTop = totLocY;
             }
 
@@ -93,8 +123,9 @@ namespace JKIDEI
         {
             pnlReport.Controls.Clear();
 
-            Label topSubject = GetNoticeLabel("설치 및 셋팅을 진행합니다.", true, 340);
-            pnlReport.Controls.Add(topSubject);
+            Label lblStartMsg = GetNoticeLabel("설치 및 셋팅을 진행합니다.", true, 340);
+            lblStartMsg.ForeColor = Color.FromArgb(0, 0, 128);
+            pnlReport.Controls.Add(lblStartMsg);
 
             // 프로그레스바 관련 셋팅
             lblPrgRatio.Text = "진행중...";
@@ -109,10 +140,11 @@ namespace JKIDEI
 
             await TaskUnitProgressUpdate(prog);
 
-            lblPrgRatio.Text = "설치 완료!";
-        } 
+            lblPrgRatio.Text = "All Proceed Complete!";
+        }
         #endregion
 
+        #region TaskUnitProgressUpdate : 각각의 작업들을 차례대로 실행시킨다.
         private async Task TaskUnitProgressUpdate(IProgress<ProgressReport> prog)
         {
             TaskUnitService tuService = TaskUnitService.GetService();
@@ -140,10 +172,20 @@ namespace JKIDEI
                             ErrorInfo error = tu.Execute();
                             if (!error.IsNormal)
                             {
-                                MessageBox.Show(error.Description, error.Title);
+                                //MessageBox.Show(error.Description, error.Title);
                                 this.Invoke(new Action(delegate ()
                                 {
-                                    SetMainNotice();
+                                    //SetMainNotice();
+
+                                    Label lblErrorInfo = GetNoticeLabel("설치되지 않은 항목이 있습니다.", false, 870);
+                                    pnlReport.Controls.Add(lblErrorInfo);
+
+                                    string[] arrError = error.Description.Split(new char[] { '|', '|' }, StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (string strErr in arrError)
+                                    {
+                                        Label lblErr = GetNoticeLabel(strErr, false, 870, true);
+                                        pnlReport.Controls.Add(lblErr);
+                                    }
                                 }));
                                 break;
                             }
@@ -156,15 +198,33 @@ namespace JKIDEI
                                 SetMainNotice();
                                 progBar.Value = 0;
                                 progBar.Update();
-                                lblPrgRatio.Text = $"Ready";
                             }));
                             break;
                         }
                     }
+
+                    this.Invoke(new Action(delegate ()
+                    {
+                        Label lblComplete = GetNoticeLabel("작업이 모두 완료되었습니다.", false, 320);
+                        lblComplete.ForeColor = Color.FromArgb(73, 73, 73);
+                        lblComplete.Font = new Font(lblComplete.Font, FontStyle.Bold);
+                        pnlReport.Controls.Add(lblComplete);
+                    }));
                 });
             }
         }
+        #endregion
 
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        const int CS_DROPSHADOW = 0x2000;
+        //        CreateParams cp = new CreateParams();
+        //        cp.ClassStyle |= CS_DROPSHADOW;
+        //        return cp;
+        //    }
+        //}
 
         #region 메인폼 최소화, 닫기 버튼 이벤트
         private void btnMinimize_Click(object sender, EventArgs e)
